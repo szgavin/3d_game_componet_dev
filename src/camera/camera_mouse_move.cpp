@@ -19,8 +19,8 @@ GLFWwindow* window;
 #include"shader.hpp"
 float mixValue = 0.2f;
 //setting
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT= 600;
+const unsigned int SCR_WIDTH = 1920;
+const unsigned int SCR_HEIGHT= 1080;
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -30,7 +30,7 @@ float yaw = -90.0f;
 float pitch = 0.0f;
 float lastX = 800.0f / 2.0;
 float lastY = 600.0 / 2.0;
-float fov = 45.0f;
+float fov = 60.0f;
 
 static void processInput(GLFWwindow *window);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -313,17 +313,17 @@ void mouse_callback(GLFWwindow * window, double xpos, double ypos)
     lastX = xpos;
     lastY = ypos;
 
-    float sensitivity = 0.001f;
+    float sensitivity = 0.05f;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
 
     yaw   += xoffset;
     pitch += yoffset;
 
-    if(pitch > 60.0f)
-        pitch = 60.0f;
-    if(pitch < -60.0f)
-        pitch = -60.0f;
+    if(pitch > 89.0f)
+        pitch = 89.0f;
+    if(pitch < -89.0f)
+        pitch = -89.0f;
 
     glm::vec3 front;
     front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
