@@ -1,10 +1,13 @@
-all: transform
-transform:transform.o shader.o
-	g++ transform.o shader.o  -o transform -rdynamic -lGLU -lGL /usr/local/lib/libglfw3.a /usr/local/lib/libGLEW.a -lGLU -lGL -lGLU -lXrandr -lXext -lX11 -lrt -ldl -lrt -lm -lX11 -lpthread -lXrandr -lXinerama -lXi -lXxf86vm -lXcursor -ldl -lrt -lm -lX11 -lpthread -lXrandr -lXinerama -lXi -lXxf86vm -lXcursor -lGL
-transform.o: transform.cpp
-	g++ -c transform.cpp
-shader.o: shader.cpp
+objects = -rdynamic -lGLU -lGL /usr/local/lib/libglfw3.a /usr/local/lib/libGLEW.a -lGLU -lGL -lGLU -lXrandr -lXext -lX11 -lrt -ldl -lrt -lm -lX11 -lpthread -lXrandr -lXinerama -lXi -lXxf86vm -lXcursor -ldl -lrt -lm -lX11 -lpthread -lXrandr -lXinerama -lXi -lXxf86vm -lXcursor -lGL
+mouse_move:camera_mouse_move.o shader.o
+	g++ -o mouse_move camera_mouse_move.o shader.o $(objects)
+
+camera_mouse_move.o:camera_mouse_move.cpp
+	g++ -c camera_mouse_move.cpp
+
+shader.o:shader.cpp shader.hpp
 	g++ -c shader.cpp
+.PHONY:clean
 clean:
-	rm -rf *.o transform
+	rm mouse_move camera_mouse_move.o shader.o
 

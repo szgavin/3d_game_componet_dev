@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-
+#include<unistd.h>
 //Include GLEW
 #include<GL/glew.h>
 
@@ -26,6 +26,8 @@ glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 bool firstMouse = true;
+float max_yaw  = 100.0f;
+float min_yaw  = -35.0f;
 float yaw = -90.0f;
 float pitch = 0.0f;
 float lastX = 800.0f / 2.0;
@@ -256,6 +258,7 @@ int main(void)
        
        glfwSwapBuffers(window);
        glfwPollEvents();
+       usleep(100);
     }
     //Clean VAO
     glDeleteVertexArrays(1, &VAO);
@@ -313,13 +316,24 @@ void mouse_callback(GLFWwindow * window, double xpos, double ypos)
     lastX = xpos;
     lastY = ypos;
 
-    float sensitivity = 0.05f;
+    float sensitivity = 0.01f;
     xoffset *= sensitivity;
     yoffset *= sensitivity;
-
+    if(xoffset <= -100.0f)
+       xoffset = -100;
     yaw   += xoffset;
+    std::cout<<"before yaw = "<<yaw<<", xoffset= "<<xoffset<<"\n";
     pitch += yoffset;
-
+    if (yaw >= max_yaw)
+    {
+      yaw -= xoffset;
+      std::cout<<"yaw max value= "<<yaw<<" offset max value ="<<xoffset<<" \n";
+    }else if (pitch <= min_yaw)
+    {
+      yaw += xoffset;
+      std::cout<<"yaw min value= "<<yaw<<" offset min value ="<<xoffset<<" \n";
+    }
+    std::cout<<"gavin  yaw ="<<yaw<<"\n";
     if(pitch > 89.0f)
         pitch = 89.0f;
     if(pitch < -89.0f)
