@@ -2,7 +2,7 @@
 #define CAMERA_H
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
-
+#include<iostream>
 #include<vector>
 
 enum Camera_Movement{
@@ -74,6 +74,7 @@ class Camera
             Postion -= Right * velocity;
          if(direction == RIGHT)
             Postion += Right * velocity;
+         //Postion.y = 0.0f;  <-- this one-liner keeps the user at the ground level (xz plane)
      }
      //Process Mouse event
      void ProcessMouseMovement(float xoffset, float yoffset,bool constrainPitch = true)
@@ -83,13 +84,21 @@ class Camera
          
          Yaw    += xoffset;
          Pitch  += yoffset;
-         
+         std::cout<<"Yaw"<<Yaw<<"\n"; 
          if(constrainPitch)
          {
             if(Pitch > 89.0f)
                Pitch = 89.0f;
             if(Pitch < -89.0f)
                Pitch = -89.0f;
+         }
+         if (Yaw < -85.0f)
+         {
+             Yaw = -85.0f;
+         }
+         if(Yaw > 85.0f)
+         {
+             Yaw = 85.0f;
          }
          //update Front ,Right Up Vectors  using to updat Euler angles
          updateCameraVectors();

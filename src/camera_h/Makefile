@@ -1,4 +1,4 @@
-CXXFLAGS = -I/home/gavin/git_hub_sourcecode/my_git/3d_game_componet_dev/src/camera_h -I /home/gavin/git_hub_sourcecode/my_git/3d_game_componet_dev/src/glm
+CXXFLAGS = -I/home/gavin/git_hub_sourcecode/my_git/3d_game_componet_dev/src/camera_h
 objects = -rdynamic -lGLU -lGL /usr/local/lib/libglfw3.a /usr/local/lib/libGLEW.a -lGLU -lGL -lGLU -lXrandr -lXext -lX11 -lrt -ldl -lrt -lm -lX11 -lpthread -lXrandr -lXinerama -lXi -lXxf86vm -lXcursor -ldl -lrt -lm -lX11 -lpthread -lXrandr -lXinerama -lXi -lXxf86vm -lXcursor -lGL
 mouse_move:camera_mouse_move.o shader.o
 	g++ -o mouse_move camera_mouse_move.o shader.o $(objects)
