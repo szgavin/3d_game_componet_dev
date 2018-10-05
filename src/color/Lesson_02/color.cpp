@@ -70,7 +70,7 @@ int main()
    glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
    glEnable(GL_DEPTH_TEST);
 
-   Shader lightingShader("2.vs","2.fs");
+   Shader lightingShader("2.vs","3.fs");
    Shader lampShader("1.lamp.vs", "1.lamp.fs");
     float vertices[] = {
     // positions          // normals           // texture coords
@@ -144,10 +144,15 @@ int main()
     glEnableVertexAttribArray(0);
     
     //load texture
+    unsigned int specularMap = loadTexture("lighting_maps_specular_color.png");
     unsigned int diffuseMap = loadTexture("container2.png");
+    unsigned int emissionMap = loadTexture("matrix.jpg");
+    //unsigned int specularMap = loadTexture("container2_specular.png");
     lightingShader.use();
     lightingShader.setInt("material.diffuse", 0);
-
+    lightingShader.setInt("material.specular", 1);
+    lightingShader.setInt("material.emission", 2);
+    
     //render loop
     while(!glfwWindowShouldClose(window))
     {
@@ -170,28 +175,32 @@ int main()
         lightingShader.setMat4("view", view);
        
         
-        lightingShader.setVec3("material.ambient", 1.0f, 1.0f, 1.0f);
-        lightingShader.setVec3("material.diffuse", 1.0f, 1.0f, 1.0f);
+        lightingShader.setVec3("material.ambient", 0.5f, 0.5f, 0.5f);
+        lightingShader.setVec3("material.diffuse", 0.5f, 0.5f, 0.5f);
         lightingShader.setVec3("material.specular", 1.0f, 1.0f, 1.0f);
         lightingShader.setFloat("material.shininess", 32.0f);
-        //
+        //dynamic color 
+        /*
         glm::vec3 lightColor;
         lightColor.x = sin(glfwGetTime()*0.2f);
         lightColor.y = sin(glfwGetTime()*0.7f);
         lightColor.z = sin(glfwGetTime()*1.3f);
         glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
-        glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);  
-        lightingShader.setVec3("light.ambient", ambientColor);
-        lightingShader.setVec3("light.diffuse", diffuseColor);
+        glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f); */ 
+        lightingShader.setVec3("light.ambient", 0.2f,0.2f, 0.2f);
+        lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
-
+        
         //World transformation
         glm::mat4 model;
         lightingShader.setMat4("model", model);
         
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, diffuseMap);
-               
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, specularMap);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, emissionMap);
         //render the cube
         glBindVertexArray(cubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
