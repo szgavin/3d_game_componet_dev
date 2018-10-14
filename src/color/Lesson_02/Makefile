@@ -6,9 +6,13 @@ color:color.o shader.o
 color.o:color.cpp
 	g++ -c $(CXXFLAGS) color.cpp
 
+direct_light:direct_light.o shader.o
+	g++ -o direct_light direct_light.o shader.o $(objects)
+direct_light.o:direction_light.cpp
+	g++ -c $(CXXFLAGS) direction_light.cpp
 shader.o:shader.cpp shader.hpp
 	g++ -c shader.cpp
 .PHONY:clean
 clean:
-	rm color color.o shader.o
+	rm color color.o shader.o direct_light direct_light.o
 
