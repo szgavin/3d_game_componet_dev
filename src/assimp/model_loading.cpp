@@ -28,7 +28,7 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-
+//float angle = 10.0f;
 
 int main()
 {
@@ -82,7 +82,7 @@ int main()
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
-
+       
         // input
         // -----
         processInput(window);
@@ -103,6 +103,9 @@ int main()
 
         // render the loaded model
         glm::mat4 model;
+        
+        model = glm::rotate(model,(float)glfwGetTime(), glm::vec3(0.0f,1.0f, 0.0f));
+        
         model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
         ourShader.setMat4("model", model);
